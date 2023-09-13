@@ -1,13 +1,18 @@
 import cv2
 import random
-from keras.models import load_model
 import numpy as np
 import time
+from keras.models import load_model
+
 model = load_model('Rock_paper_scissors_project/keras_model.h5')
 cap = cv2.VideoCapture(0)
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 
+user_wins = 0
+computer_wins = 0
 def play():
+
+    
 
     def get_computer_choice():
         computer_choice = random.choices(['rock', 'paper', 'scissors'])[0]
@@ -50,8 +55,8 @@ def play():
                 break
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        signs = ['You chose scissors', 'You chose paper', 'You chose rock', 'Try again']
-        print(signs[sign])
+        signs = ['scissors', 'paper', 'rock', 'Try again']
+        #print(signs[sign])
         # After the loop release the cap object
         cap.release()
         # Destroy all the windows
@@ -59,23 +64,33 @@ def play():
         return signs[sign]
 
     def get_winner(computer_choice, user_choice):
-        if computer_choice == 'rock' and user_choice == 'You chose scissors' or computer_choice == 'scissors' and user_choice == 'You chose paper' or computer_choice == 'paper' and user_choice == 'You chose rock':
-            print('You lost!')
+        if computer_choice == 'rock' and user_choice == 'scissors' or computer_choice == 'scissors' and user_choice == 'paper' or computer_choice == 'paper' and user_choice == 'rock':
+            computer_wins += 1
+            print('You lost this round!')
 
-        elif user_choice == 'You chose rock' and computer_choice == 'scissors' or user_choice == 'You chose scissors' and computer_choice == 'paper' or user_choice == 'You chose paper' and computer_choice == 'rock':
-            print('You won!')
+        elif user_choice == 'rock' and computer_choice == 'scissors' or user_choice == 'scissors' and computer_choice == 'paper' or user_choice == 'paper' and computer_choice == 'rock':
+            user_wins += 1
+            print('You won this round!')
 
         elif user_choice == 'Try again':
             print('Your sign was not recognised, try again')
 
         else:
-            print('It is a tie')
+            print('This round is a tie')
 
-    
-    user_choice = get_prediction()
-    computer_choice = get_computer_choice()
-    print('The computer chose ', computer_choice)
-    get_winner(computer_choice, user_choice)
+    round_number = 0
+    while user_wins < 3 and computer_wins < 3:
+        round_number += 1
+        print(f'Round {round_number}!')
+        user_choice = get_prediction()
+        print(f'You chose {user_choice}')
+        computer_choice = get_computer_choice()
+        print(f'The computer chose {computer_choice}')
+        get_winner(computer_choice, user_choice)
+    if user_wins == 3:
+        print('Congratulations, you have won three rounds in a row!, you win!')
+    else:
+        print('The computer has won three rounds in a row, you lose!')
 
 play()
     
