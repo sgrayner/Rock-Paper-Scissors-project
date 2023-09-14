@@ -5,8 +5,7 @@ import time
 from keras.models import load_model
 
 model = load_model('Rock_paper_scissors_project/keras_model.h5')
-cap = cv2.VideoCapture(0)
-data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+
 
 class RPS:
     def __init__(self, user_wins, computer_wins):
@@ -21,7 +20,9 @@ class RPS:
         print('Show either a rock, paper or scissors sign to your camera')
         start_time = time.time()
         message = ''
-        while True: 
+        while True:
+            cap = cv2.VideoCapture(0)
+            data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32) 
             ret, frame = cap.read()
             resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
             image_np = np.array(resized_frame)
@@ -49,13 +50,11 @@ class RPS:
                 print(message)
             elif elapsed > 5 and message != 'End':
                 message = 'End'
-                print(message)
                 sign = np.argmax(prediction)
                 break
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         signs = ['scissors', 'paper', 'rock', 'Try again']
-        #print(signs[sign])
         # After the loop release the cap object
         cap.release()
         # Destroy all the windows
@@ -89,9 +88,9 @@ class RPS:
             print(f'The computer chose {computer_choice}')
             self.get_winner(computer_choice, user_choice)
         if self.user_wins == 3:
-            print('Congratulations, you have won three rounds in a row!, you win!')
+            print('Congratulations, you have won three rounds! You win!')
         else:
-            print('The computer has won three rounds in a row, you lose!')
+            print('The computer has won three rounds, you lose!')
 
 game = RPS(0, 0).play()
 
