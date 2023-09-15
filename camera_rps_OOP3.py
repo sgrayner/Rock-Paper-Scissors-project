@@ -17,17 +17,18 @@ class RPS:
         return computer_choice
 
     def get_prediction(self):
-        
+        cap = cv2.VideoCapture(0)
         while True:
-            cap = cv2.VideoCapture(0)
+            
             data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32) 
             ret, frame = cap.read()
+            cv2.imshow('frame', frame)
             resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
             image_np = np.array(resized_frame)
             normalized_image = (image_np.astype(np.float32) / 127.0) - 1 # Normalize the image
             data[0] = normalized_image
             prediction = model.predict(data)
-            cv2.imshow('frame', frame)
+            
             # Press q to close the window
             #print(prediction)
             print('Show either a rock, paper or scissors sign to your camera')
@@ -50,25 +51,28 @@ class RPS:
                 elif elapsed <= 5 and elapsed > 4 and message != '1 second remaining!':
                     message = '1 second remaining!'
                     print(message)
-                elif elapsed > 5 and message != 'End':
-                    message = 'End'
+                elif elapsed > 5:
                     sign = np.argmax(prediction)
                     break
             if cv2.waitKey(5) & 0xFF == ord('q'):
                 break
-        signs = ['scissors', 'paper', 'rock', 'Try again']
-        # After the loop release the cap object
-        cap.release()
-        # Destroy all the windows
-        cv2.destroyAllWindows()
-        return signs[sign]
+            signs = ['scissors', 'paper', 'rock', 'Try again']
+            # After the loop release the cap object
+            cap.release()
+            # Destroy all the windows
+            cv2.destroyAllWindows()
+            return signs[sign]
 
     def get_winner(self, computer_choice, user_choice):
-        if computer_choice == 'rock' and user_choice == 'scissors' or computer_choice == 'scissors' and user_choice == 'paper' or computer_choice == 'paper' and user_choice == 'rock':
+        if computer_choice == 'rock' and user_choice == 'scissors'\
+            or computer_choice == 'scissors' and user_choice == 'paper'\
+            or computer_choice == 'paper' and user_choice == 'rock':
             self.computer_wins += 1
             print('You lost this round!')
 
-        elif user_choice == 'rock' and computer_choice == 'scissors' or user_choice == 'scissors' and computer_choice == 'paper' or user_choice == 'paper' and computer_choice == 'rock':
+        elif user_choice == 'rock' and computer_choice == 'scissors'\
+            or user_choice == 'scissors' and computer_choice == 'paper'\
+            or user_choice == 'paper' and computer_choice == 'rock':
             self.user_wins += 1
             print('You won this round!')
 

@@ -20,9 +20,10 @@ class RPS:
         print('Show either a rock, paper or scissors sign to your camera')
         start_time = time.time()
         message = ''
+        cap = cv2.VideoCapture(0)
+        
         while True:
-            cap = cv2.VideoCapture(0)
-            data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32) 
+            data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
             ret, frame = cap.read()
             resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
             image_np = np.array(resized_frame)
