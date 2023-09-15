@@ -9,13 +9,16 @@ The aim of this project is to build a rock-paper-scissors game using a deep lear
 - Begin the game by running the program.
 - At the start of each round, press enter to commence the running of the code.
 <img width="254" alt="Correct_letter" src="images/Press enter to start round.jpg">
+
 - The program will prompt you to input a sign, either 'rock', 'paper' or 'scissors'.
 - It will then automatically start a countdown. You have 5 seconds to show your chosen hand sign to your camera.
-<img width="254" alt="Correct_letter" src="images/Countdown.jpg">
+<img width="400" alt="Correct_letter" src="images/Countdown.jpg">
+
 - The program will then either state the choices that you and the computer have made, or it will tell you that your sign was not recognised.
 <img width="254" alt="Correct_letter" src="images/Get_winner.jpg">
+
 - The program will then tell you the result of the game, either 'You won!', 'You lost!', or 'It is a tie'.
-<img width="254" alt="Correct_letter" src="images/You_win.jpg">
+<img width="400" alt="Correct_letter" src="images/You_win.jpg">
 
 - The next round will be announced, and you will have to press enter to start that round.
 - The game will continue until either you or the computer have won three rounds. At this point, the program will announce the overall winner.
